@@ -37,7 +37,7 @@ public class PonyController {
 		if(oPony.isPresent()) {
 			return oPony.get();
 		}
-		throw new ResourceNotFoundException( "Course not found" );
+		throw new ResourceNotFoundException( "Pony not found" );
 	}
 	
 	@DeleteMapping("/{id}")
@@ -52,14 +52,17 @@ public class PonyController {
 	
 	@PutMapping("/{id}")
 	public Pony update(@PathVariable("id") Long id, @RequestBody @Valid Pony pony) {
-		Pony ponyToChange = ponyDAO.findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException("Pony not found"));
-		ponyToChange.setName(pony.getName());
-		ponyToChange.setColor(pony.getColor());
-		ponyToChange.setAge(pony.getAge());
-		ponyToChange.setWeight(pony.getWeight());
-		
-		Pony updatePony = ponyDAO.save(ponyToChange);
-		return updatePony;
+		Optional<Pony> ponyToChange = ponyDAO.findById(id);
+		if (ponyToChange.isPresent()) {
+			ponyToChange.get().setName(pony.getName());
+			ponyToChange.get().setColor(pony.getColor());
+			ponyToChange.get().setAge(pony.getAge());
+			ponyToChange.get().setWeight(pony.getWeight());
+			
+			Pony updatePony = ponyDAO.save(ponyToChange.get());
+			return updatePony;
+		}
+		throw new ResourceNotFoundException( "Pony not found" );
+
 	}
 }

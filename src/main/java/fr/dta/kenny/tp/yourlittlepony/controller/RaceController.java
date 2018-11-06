@@ -54,15 +54,19 @@ public class RaceController {
 	
 	@PutMapping("/{id}")
 	public Race update(@PathVariable("id") Long id, @RequestBody @Valid Race race) {
-		Race raceToChange = raceDAO.findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException("Course not found"));
-		raceToChange.setLocation(race.getLocation());
-		raceToChange.setDate(race.getDate());
-		raceToChange.setPonies(race.getPonies());
-		
-		Race updateRace = raceDAO.save(raceToChange);
-		return updateRace;
+		Optional<Race> raceToChange = raceDAO.findById(id);
+		if (raceToChange.isPresent()) {
+			raceToChange.get().setLocation(race.getLocation());
+			raceToChange.get().setDate(race.getDate());
+			raceToChange.get().setPonies(race.getPonies());
+			
+			Race updateRace = raceDAO.save(raceToChange.get());
+			return updateRace;
+		}
+		throw new ResourceNotFoundException( "Course not found" );
+
 	}
+	
 	
 	
 }
