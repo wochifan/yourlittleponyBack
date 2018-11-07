@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
@@ -25,8 +27,8 @@ public class Race {
 	@Column
 	private String location;
 	
-	@OneToMany
-	@Column
+	@ManyToMany
+	@JoinTable(name="race_pony", joinColumns=@JoinColumn(name="race_id"), inverseJoinColumns=@JoinColumn(name="pony_id")) 
 	private List<Pony> ponies = new ArrayList<Pony>();
 	
 	@Column

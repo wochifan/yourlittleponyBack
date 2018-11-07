@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +27,13 @@ public class PonyController {
 	@Autowired
 	PonyDAO ponyDAO;
 	
+	@CrossOrigin(origins = "*")
 	@GetMapping("/")
 	public List<Pony> getAll() {
 		return ponyDAO.findAll();
 	}
 	
+	@CrossOrigin(origins = "*")
 	@GetMapping("/{id}")
 	public Pony getById(@PathVariable("id") Long id) {
 		Optional<Pony> oPony = ponyDAO.findById(id);
@@ -40,16 +43,19 @@ public class PonyController {
 		throw new ResourceNotFoundException( "Pony not found" );
 	}
 	
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable("id") Long id) {
 		ponyDAO.deleteById(id);
 	}
 	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/create")
 	public void create(@RequestBody @Valid Pony pony) {
 		ponyDAO.save(pony);
 	}
 	
+	@CrossOrigin(origins = "*")
 	@PutMapping("/{id}")
 	public Pony update(@PathVariable("id") Long id, @RequestBody @Valid Pony pony) {
 		Optional<Pony> ponyToChange = ponyDAO.findById(id);
