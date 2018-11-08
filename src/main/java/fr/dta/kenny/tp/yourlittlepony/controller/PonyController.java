@@ -2,9 +2,12 @@ package fr.dta.kenny.tp.yourlittlepony.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dta.kenny.tp.yourlittlepony.dao.PonyDAO;
+import fr.dta.kenny.tp.yourlittlepony.dao.RaceDAO;
 import fr.dta.kenny.tp.yourlittlepony.exception.ResourceNotFoundException;
 import fr.dta.kenny.tp.yourlittlepony.model.Pony;
+import fr.dta.kenny.tp.yourlittlepony.model.Race;
 
 @RestController
 @RequestMapping("/pony")
@@ -26,6 +31,8 @@ public class PonyController {
 	
 	@Autowired
 	PonyDAO ponyDAO;
+	@Autowired
+	RaceDAO raceDAO;
 	
 	@CrossOrigin(origins = "*")
 	@GetMapping("/")
@@ -46,6 +53,12 @@ public class PonyController {
 	@CrossOrigin(origins = "*")
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable("id") Long id) {
+		List<Race> races = raceDAO.findAll();
+		races.forEach((race) -> {
+			List<Pony> poniesFiltered = race.getPonies().stream().filter((p) -> p.getId() != id).collect(Collectors.toList());
+			race.setPonies(poniesFiltered);
+			raceDAO.save(race);
+		});
 		ponyDAO.deleteById(id);
 	}
 	
