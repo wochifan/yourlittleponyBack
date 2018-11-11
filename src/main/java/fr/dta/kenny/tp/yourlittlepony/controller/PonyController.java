@@ -64,8 +64,8 @@ public class PonyController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping("/create")
-	public void create(@RequestBody @Valid Pony pony) {
-		ponyDAO.save(pony);
+	public Pony create(@RequestBody @Valid Pony pony) {
+		return ponyDAO.save(pony);
 	}
 	
 	@CrossOrigin(origins = "*")

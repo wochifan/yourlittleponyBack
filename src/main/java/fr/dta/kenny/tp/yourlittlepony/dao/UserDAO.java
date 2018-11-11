@@ -10,11 +10,7 @@ import fr.dta.kenny.tp.yourlittlepony.model.User;
 
 @Repository
 public interface UserDAO extends JpaRepository<User, Long> {
-	
-	@Query(" select u from User u " +
-            " where u.username = ?")
-    Optional<User> findUserWithName(String username);
-	
+
 }
 
 

@@ -52,14 +52,13 @@ public class RaceController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void create(@RequestBody @Valid Race race) {
-		raceDAO.save(race);
+	public Race create(@RequestBody @Valid Race race) {
+		return raceDAO.save(race);
 	}
 	
 	@CrossOrigin(origins = "*")
 	@PutMapping("/{id}")
 	public Race update(@RequestBody @Valid Race race) {
-		System.out.println("=========================================== " + race);
 		return raceDAO.save(race);
 	}
 	

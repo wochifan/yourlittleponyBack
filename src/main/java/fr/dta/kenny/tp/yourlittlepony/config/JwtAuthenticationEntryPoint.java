@@ -12,6 +12,14 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
+	public void commence(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException authException) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/*
+	@Override
     public void commence(HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse,
             AuthenticationException e) throws IOException, ServletException {
@@ -19,6 +27,6 @@ logger.error("Responding with unauthorized error. Message - {}", e.getMessage())
 httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
    "Sorry, You're not authorized to access this resource.");
 }
-
+*/
 	
 }

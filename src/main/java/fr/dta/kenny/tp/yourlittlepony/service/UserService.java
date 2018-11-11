@@ -24,10 +24,11 @@ public class UserService {
 	@Autowired
 	private RoleDAO roleDAO;
 	
+	/*
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-
+	*/
+/*
 	public User findUserByUsername(String username) {
 		Optional<User> oUser = userDAO.findUserWithName(username);
 		if (oUser.isPresent() ) {
@@ -35,7 +36,9 @@ public class UserService {
 		}
 		throw new ResourceNotFoundException( "User not found" );
 	}
+	*/
 	
+	/*
 	public void saveUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		Role userRole = roleDAO.findByRole("USER");
@@ -43,6 +46,6 @@ public class UserService {
 		userDAO.save(user);
 	}
 	 
-	    
+	    */
 	    
 }
