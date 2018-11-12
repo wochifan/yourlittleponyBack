@@ -2,6 +2,7 @@ package fr.dta.kenny.tp.yourlittlepony.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -38,14 +39,20 @@ public class User implements Serializable, UserDetails {
 	
 	@ManyToMany
 	@JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id")) 
-	private Set<Role> roles;
+	private List<Role> roles;
 	
 	
-	public Set<Role> getRoles() {
+	public User(String username, String password, List<Role> listRoles) {
+		this.username = username;
+		this.password = password;
+		this.roles = listRoles;
+	}
+
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 

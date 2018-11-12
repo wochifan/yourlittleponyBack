@@ -11,6 +11,7 @@ import fr.dta.kenny.tp.yourlittlepony.model.User;
 @Repository
 public interface UserDAO extends JpaRepository<User, Long> {
 
+	User findByUsername(String username);
 }
 
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,9 @@ public class UserController {
 	
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@RequestMapping("/user")
 	public Principal user(Principal user) {
@@ -59,4 +63,9 @@ public class UserController {
 		userDAO.save(user);
 	}
 	
+    @PostMapping("/sign-up")
+    public void signUp(@RequestBody User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userDAO.save(user);
+    }
 }

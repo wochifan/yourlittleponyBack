@@ -6,23 +6,35 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import fr.dta.kenny.tp.yourlittlepony.dao.RoleDAO;
 import fr.dta.kenny.tp.yourlittlepony.dao.UserDAO;
-import fr.dta.kenny.tp.yourlittlepony.exception.ResourceNotFoundException;
-import fr.dta.kenny.tp.yourlittlepony.model.Role;
 import fr.dta.kenny.tp.yourlittlepony.model.User;
 
+import static java.util.Collections.emptyList;
+
 @Service("userService")
-public class UserService {
+public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserDAO userDAO;
 	 
 	@Autowired
 	private RoleDAO roleDAO;
+
+	@Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User applicationUser = userDAO.findByUsername(username);
+        if (applicationUser == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+    }
 	
 	/*
 	@Autowired
